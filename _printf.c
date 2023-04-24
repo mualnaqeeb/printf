@@ -1,51 +1,31 @@
 #include "main.h"
-#include <stdarg.h>
-#include <stdio.h>
 
 /**
- * _printf - function that produces output according to a format
- * @format: type of argument passed to function
+ * _printf - Produces output according to a format
+ * @format: Is a character string. The format string
+ * is composed of zero or more directives
  *
- * Return: k, number of characters printed
- */
-
+ * Return: The number of characters printed (excluding
+ * the null byte used to end output to strings)
+ **/
 int _printf(const char *format, ...)
 {
+	int size;
 	va_list args;
-	int i, j, k, count;
-	var_t type[] = {
-		{"c", c_func}, {"s", s_func}, {"i", i_func}, {"%", perc_func},
-		{"d", d_func},	{"b", b_func},	{"r", rev_func}, {"R", rot_func},
-		{NULL, NULL},
-	};
+
+	if (format == NULL)
+		return (-1);
+
+	size = _strlen(format);
+	if (size <= 0)
+		return (0);
 
 	va_start(args, format);
-	i = 0, count = 0, k = 0;
-	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
-		return (-1);
-	while (format && format[i])
-	{
-		if (format[i] != '%')
-			_putchar(format[i]), k++;
-		else
-		{
-			j = 0;
-			while (type[j].vartype)
-			{
-				if (format[i + 1] == *type[j].vartype)
-				{
-					count += (type[j].f)(args), i++;
-					break;
-				}
-				j++;
-			}
-			if (type[j].vartype == NULL)
-				count += 1, _putchar('%');
-		}
-		i++;
-	}
-	k += count;
+	size = handler(format, args);
+
+	_putchar(-1);
 	va_end(args);
-	return (k);
+
+	return (size);
 }
 

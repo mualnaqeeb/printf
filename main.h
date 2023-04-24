@@ -1,35 +1,51 @@
 #ifndef MAIN_H
 #define MAIN_H
-#include <stdio.h>
+
+#include <unistd.h>
+#include <stdlib.h>
 #include <stdarg.h>
 
-int _putchar(char c);
-void print_numbers(const char *separator, const unsigned int n, ...);
-void print_strings(const char *separator, const unsigned int n, ...);
-int _printf(const char *format, ...);
-void print_number(int n, int *count);
+/* utils.c */
+int _strlen(const char *);
+int print(char *);
+char *itoa(long int, int);
+
+/* printf.c */
+int _printf(const char *, ...);
+
+/* handler.c */
+int handler(const char *, va_list);
+int percent_handler(const char *, va_list, int *);
+
+/* printers */
+int print_string(va_list);
+int print_char(va_list);
+int print_integer(va_list);
+int print_binary(va_list);
+int print_rot(va_list);
+int print_unsigned(va_list);
+int print_octal(va_list);
+int print_hexadecimal_low(va_list);
+int print_hexadecimal_upp(va_list);
+int print_pointer(va_list);
+int print_rev_string(va_list);
+
+/* _putchar.c */
+int _putchar(char);
+int buffer(char);
 
 /**
- * struct vartype - struct vartype
+ * struct _format - Typedef struct
  *
- * @vartype: type of variable to be printed
- * @f: the function associated
- */
-
-typedef struct vartype
+ * @type: Format
+ * @f: The function associated
+ **/
+typedef struct _format
 {
-	char *vartype;
+	char type;
 	int (*f)(va_list);
-} var_t;
+} format;
 
-int c_func(va_list args);
-int s_func(va_list args);
-int perc_func(va_list args);
-int i_func(va_list args);
-int d_func(va_list args);
-int b_func(va_list args);
-int rev_func(va_list args);
-int rot_func(va_list args);
 
-#endif /* MAIN_H */
+#endif
 
